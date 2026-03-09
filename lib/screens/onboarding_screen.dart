@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'login_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<Map<String, dynamic>> pages = [
     {
       "image": "images/img_onboard_1.jpg",
-      "title": "We Provide Professional\nHome services at a very\nfriendly price",
+      "title": "Professional Home Services\nat a Friendly Price",
     },
     {
       "image": "images/img_onboard_2.jpg",
@@ -44,25 +45,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 return _buildPage(pages[index]);
               },
             ),
-            // Updated Skip Button to match design background
+            // Top Skip Button (Sticky)
             Positioned(
-              top: 20,
+              top: 16,
               right: 20,
               child: TextButton(
                 onPressed: _navigateToLogin,
                 style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFFE9F0FF),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
-                child: const Text(
+                child: Text(
                   "Skip",
-                  style: TextStyle(
-                    color: Color(0xFF003366),
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF6B7280),
                     fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
@@ -76,110 +73,109 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget _buildPage(Map<String, dynamic> data) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final screenHeight = constraints.maxHeight;
-        // Adjust sizes dynamically to be more conservative and avoid overflow
-        final imageSize = screenHeight * 0.35; 
-        final topSpacing = screenHeight * 0.12; 
-        final midSpacing = screenHeight * 0.04;
-
         return SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: screenHeight),
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
             child: IntrinsicHeight(
-              child: Column(
-                children: [
-                  SizedBox(height: topSpacing),
-                  // Centered Image Container with Border
-                  Center(
-                    child: Container(
-                      width: imageSize,
-                      height: imageSize,
-                      decoration: BoxDecoration(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center, // Vertically center content
+                  children: [
+                    const SizedBox(height: 60), // Small buffer for top
+                    // Centered Image Container
+                    Container(
+                      width: 240,
+                      height: 240,
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFFF0F5FF),
-                          width: 12,
-                        ),
-                        image: DecorationImage(
-                          image: AssetImage(data["image"]),
-                          fit: BoxFit.cover,
-                        ),
+                        color: Color(0xFFF3F4F6),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 40), // Balanced gap as requested
-                  // Refined Typography
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Text(
-                      data["title"],
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1A1D1E),
-                        height: 1.2,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: midSpacing),
-                  // Improved Indicators (Pill + Circle)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      pages.length,
-                      (dotIndex) => AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        width: _currentIndex == dotIndex ? 28 : 8,
-                        height: 6,
+                      child: Container(
                         decoration: BoxDecoration(
-                          color: _currentIndex == dotIndex
-                              ? const Color(0xFF1D92FF)
-                              : const Color(0xFFE8F1FF),
-                          borderRadius: BorderRadius.circular(10),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage(data["image"]),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: midSpacing),
-                  // Next Button
-                  GestureDetector(
-                    onTap: () {
-                      if (_currentIndex == pages.length - 1) {
-                        _navigateToLogin();
-                      } else {
-                        _controller.nextPage(
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    },
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1D92FF),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF1D92FF).withOpacity(0.25),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
-                          )
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 20,
-                        color: Colors.white,
+                    const SizedBox(height: 32), // Image -> Title spacing
+                    // Redesigned Title
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: Text(
+                        data["title"],
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.inter(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF111827),
+                          height: 30 / 24,
+                        ),
                       ),
                     ),
-                  ),
-                  const Spacer(), // Added spacer here to push content up and keep layout balanced
-                  const SizedBox(height: 40),
-                ],
+                    const SizedBox(height: 20), // Title -> Dots spacing
+                    // Page Indicators (Dots)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        pages.length,
+                        (dotIndex) => AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                          width: _currentIndex == dotIndex ? 20 : 6,
+                          height: 6,
+                          decoration: BoxDecoration(
+                            color: _currentIndex == dotIndex
+                                ? const Color(0xFF2F80ED)
+                                : const Color(0xFFD1D5DB),
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40), // Dots -> Button spacing
+                    // Next Button
+                    GestureDetector(
+                      onTap: () {
+                        if (_currentIndex == pages.length - 1) {
+                          _navigateToLogin();
+                        } else {
+                          _controller.nextPage(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                      child: Container(
+                        height: 64,
+                        width: 64,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2F80ED),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            )
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 24,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 60), // Small buffer for bottom
+                  ],
+                ),
               ),
             ),
           ),

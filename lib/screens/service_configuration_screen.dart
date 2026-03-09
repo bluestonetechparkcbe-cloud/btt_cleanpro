@@ -200,7 +200,7 @@ class _ServiceConfigurationScreenState extends State<ServiceConfigurationScreen>
                     // Counters
                     _buildCounterSection(
                       "Required Person",
-                      "Regular cost is $5/hr. Total cost\nwill be calculated later",
+                      "Regular cost is \$5/hr. Total cost\nwill be calculated later",
                       persons,
                       "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
                       (val) => setState(() => persons = val < 0 ? 0 : val),
